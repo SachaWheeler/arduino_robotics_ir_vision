@@ -11,7 +11,7 @@
 
 #include <i2cmaster.h>
 
-byte newAddress = 0x55<<1;      // Write here the new address you want
+byte newAddress = 0x50<<1;      // Write here the new address you want
                                 // to assign. In this example, the new
                                 // address will be 0x55.
                                 // Shift the address 1 bit right, the 
