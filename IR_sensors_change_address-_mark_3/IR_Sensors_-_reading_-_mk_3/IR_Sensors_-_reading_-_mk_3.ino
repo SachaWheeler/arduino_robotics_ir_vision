@@ -6,6 +6,8 @@
  * Returns the temperature in Celcius and Fahrenheit from two MLX90614 
  * Infrared Thermometers, connected to the TWI/I²C pins (on the Wiring v1 
  * board 0 (SCL) and 1 (SDA) and on Wiring S board 8 (SCL) and 9 (SDA)).
+ * 
+ * http://wiki.wiring.co/wiki/Connecting_Infrared_Thermometer_MLX90614_to_Wiring#Address_Changing
  */
 
 #include <i2cmaster.h>
@@ -42,23 +44,11 @@ void loop()
 {
   celcius1 = temperatureCelcius(device1Address);// Read's data from MLX90614
   celcius2 = temperatureCelcius(device2Address);// with the given address,
-                                                // transform's it into
-                                                // temperature in Celcius and
-                                                // store's it in the celcius1
-                                                // or celcius2 variables.
- 
-  fahrenheit1 = (celcius1*1.8) + 32;     // Converts celcius into Fahrenheit 
-  fahrenheit2 = (celcius2*1.8) + 32;     // and stores in Fahrenheit1 or 
-                                         // Fahrenheit2 variables.
-
-  Serial.print("Sensor 1: Celcius: ");   // Prints all readings in the Serial 
+  
+  Serial.print("Left: ");   // Prints all readings in the Serial 
   Serial.print(celcius1);                // port.
-  Serial.print("  Fahrenheit: ");
-  Serial.println(fahrenheit1);
-  Serial.print("Sensor 2: Celcius: ");
-  Serial.print(celcius2);
-  Serial.print("  Fahrenheit: ");
-  Serial.println(fahrenheit2);
+  Serial.print(" Right: ");
+  Serial.println(celcius2);
 
   delay(1000);                         // Wait a second before printing again.
 }
