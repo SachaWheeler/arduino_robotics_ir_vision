@@ -25,11 +25,7 @@ int device2Address = 0x55<<1;   // 0x55 is the assigned address for I²C
 
 float celcius1 = 0;             // Variable to hold temperature in Celcius
                                 // for sensor 1.
-float fahrenheit1 = 0;          // Variable to hold temperature in Fahrenheit
-                                // for sensor 1.
 float celcius2 = 0;             // Variable to hold temperature in Celcius
-                                // for sensor 2.
-float fahrenheit2 = 0;          // Variable to hold temperature in Fahrenheit
                                 // for sensor 2.
 
 void setup()
