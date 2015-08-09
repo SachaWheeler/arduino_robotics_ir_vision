@@ -16,13 +16,13 @@ void loop()
 
 // eyes
 int device1Address = 0x5A<<1;   // 0x5A is the assigned address for I²C 
-int device2Address = 0x55<<1;   // 0x55 is the assigned address for I²C 
+int device2Address = 0x55<<1;   // 0x55 is the re-assigned address for I²C 
 
 float tempLeft = 0;             // Variable to hold temperature in Celcius for left eye
 float tempRight = 0;             // Variable to hold temperature in Celcius for right eye
 
 // neck 
-int servoPin = 9;
+int neckServoPin = 9;
 Servo servo;  
 int angle = 0;   // servo position in degrees 
 
@@ -33,7 +33,7 @@ void setup()
   i2c_init();                               // Initialise the i2c bus.
   PORTC = (1 << PORTC4) | (1 << PORTC5);    // Enable pullups.
 
-  servo.attach(servoPin); 
+  servo.attach(neckServoPin); 
 }
 
 void loop()
