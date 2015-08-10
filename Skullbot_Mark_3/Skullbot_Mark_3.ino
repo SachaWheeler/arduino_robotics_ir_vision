@@ -4,13 +4,6 @@
  * http://wiki.wiring.co/wiki/Connecting_Infrared_Thermometer_MLX90614_to_Wiring#Address_Changing
  */
 
-/* 
-void loop() 
-{ 
-  
-} 
- */
-
 #include <i2cmaster.h>
 #include <Servo.h> 
 
