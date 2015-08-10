@@ -1,32 +1,30 @@
 /**
- * Two Infrared Thermometers MLX906114
- * by Jaime Patarroyo
- * based on 'Is it hot? Arduino + MLX90614 IR Thermometer' by bildr.blog
- * 
- * Returns the temperature in Celcius and Fahrenheit from two MLX90614 
- * Infrared Thermometers, connected to the TWI/I²C pins (on the Wiring v1 
- * board 0 (SCL) and 1 (SDA) and on Wiring S board 8 (SCL) and 9 (SDA)).
+ * A people detecting & targeting robot
  * 
  * http://wiki.wiring.co/wiki/Connecting_Infrared_Thermometer_MLX90614_to_Wiring#Address_Changing
  */
 
+/* 
+void loop() 
+{ 
+  
+} 
+ */
+
 #include <i2cmaster.h>
+#include <Servo.h> 
 
-int device1Address = 0x5A<<1;   // 0x50 is the assigned address for I²C 
-                                // communication for sensor 1.
-                                // Shift the address 1 bit right, the 
-                                // I²Cmaster library only needs the 7 most 
-                                // significant bits for the address.
+// eyes
+int device1Address = 0x5A<<1;   // 0x5A is the assigned address for I²C 
 int device2Address = 0x55<<1;   // 0x55 is the assigned address for I²C 
-                                // communication for sensor 2.
-                                // Shift the address 1 bit right, the 
-                                // I²Cmaster library only needs the 7 most 
-                                // significant bits for the address.
 
-float celcius1 = 0;             // Variable to hold temperature in Celcius
-                                // for sensor 1.
-float celcius2 = 0;             // Variable to hold temperature in Celcius
-                                // for sensor 2.
+float tempLeft = 0;             // Variable to hold temperature in Celcius for left eye
+float tempRight = 0;             // Variable to hold temperature in Celcius for right eye
+
+// neck 
+int servoPin = 9;
+Servo servo;  
+int angle = 0;   // servo position in degrees 
 
 void setup()
 {
@@ -34,19 +32,33 @@ void setup()
   
   i2c_init();                               // Initialise the i2c bus.
   PORTC = (1 << PORTC4) | (1 << PORTC5);    // Enable pullups.
+
+  servo.attach(servoPin); 
 }
 
 void loop()
 {
-  celcius1 = temperatureCelcius(device1Address);// Read's data from MLX90614
-  celcius2 = temperatureCelcius(device2Address);// with the given address,
+  tempLeft = temperatureCelcius(device1Address);// Read's data from MLX90614
+  tempRight = temperatureCelcius(device2Address);// with the given address,
   
   Serial.print("Left: ");   // Prints all readings in the Serial 
-  Serial.print(celcius1);                // port.
+  Serial.print(tempLeft);                // port.
   Serial.print(" Right: ");
-  Serial.println(celcius2);
+  Serial.println(tempRight);
 
   delay(1000);                         // Wait a second before printing again.
+  // scan from 0 to 180 degrees
+  for(angle = 0; angle < 180; angle++)  
+  {                                  
+    servo.write(angle);               
+    delay(15);                   
+  } 
+  // now scan back from 180 to 0 degrees
+  for(angle = 180; angle > 0; angle--)    
+  {                                
+    servo.write(angle);           
+    delay(15);       
+  } 
 }
 
 float temperatureCelcius(int address) {
