@@ -4,13 +4,6 @@
  * http://wiki.wiring.co/wiki/Connecting_Infrared_Thermometer_MLX90614_to_Wiring#Address_Changing
  */
 
-/* 
-void loop() 
-{ 
-  
-} 
- */
-
 #include <i2cmaster.h>
 #include <Servo.h> 
 
@@ -45,8 +38,8 @@ void loop()
   tempLeft = temperatureCelcius(device1Address);// Read's data from MLX90614
   tempRight = temperatureCelcius(device2Address);// with the given address,
   
-  Serial.print("Left: ");   // Prints all readings in the Serial 
-  Serial.print(tempLeft);                // port.
+  Serial.print("Left: ");
+  Serial.print(tempLeft);
   Serial.print(" Right: ");
   Serial.println(tempRight);
 
@@ -54,16 +47,14 @@ void loop()
     newangle = angle - sweepUnit;
     if(newangle < 0){
       newangle = 0;
-    }
-    else{
+    }else{
       Serial.println("sweeping left");
     }
   }else{
     newangle = angle + sweepUnit;
     if(newangle > 180){
       newangle = 180;
-    }
-    else{
+    }else{
       Serial.println("sweeping right");
     }
   }
@@ -75,7 +66,7 @@ void loop()
     angle = newangle;
   }
 
-  delay(100);                         // Wait a second before printing again.
+  delay(100);                         // Wait before printing again.
 }
 
 float temperatureCelcius(int address) {
