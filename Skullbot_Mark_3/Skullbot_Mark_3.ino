@@ -4,6 +4,13 @@
  * http://wiki.wiring.co/wiki/Connecting_Infrared_Thermometer_MLX90614_to_Wiring#Address_Changing
  */
 
+/* 
+void loop() 
+{ 
+  
+} 
+ */
+
 #include <i2cmaster.h>
 #include <Servo.h> 
 
@@ -15,9 +22,13 @@ float tempLeft = 0;             // Variable to hold temperature in Celcius for l
 float tempRight = 0;             // Variable to hold temperature in Celcius for right eye
 
 // neck 
-int neckServoPin = 9;
+int neckServoPin = 8;
 Servo servo;  
 int angle = 0;   // servo position in degrees 
+int newangle;
+int sweepUnit = 2;
+int sweepDelay = 15;
+int sweep;
 
 void setup()
 {
@@ -39,19 +50,32 @@ void loop()
   Serial.print(" Right: ");
   Serial.println(tempRight);
 
-  delay(1000);                         // Wait a second before printing again.
-  // scan from 0 to 180 degrees
-  for(angle = 0; angle < 180; angle++)  
-  {                                  
-    servo.write(angle);               
-    delay(15);                   
-  } 
-  // now scan back from 180 to 0 degrees
-  for(angle = 180; angle > 0; angle--)    
-  {                                
-    servo.write(angle);           
-    delay(15);       
-  } 
+  if(tempLeft > tempRight){
+    newangle = angle - sweepUnit;
+    if(newangle < 0){
+      newangle = 0;
+    }
+    else{
+      Serial.println("sweeping left");
+    }
+  }else{
+    newangle = angle + sweepUnit;
+    if(newangle > 180){
+      newangle = 180;
+    }
+    else{
+      Serial.println("sweeping right");
+    }
+  }
+  // Serial.print("angle: ");
+  // Serial.println(newangle);
+  
+  if(newangle != angle){
+    servo.write(newangle);
+    angle = newangle;
+  }
+
+  delay(100);                         // Wait a second before printing again.
 }
 
 float temperatureCelcius(int address) {
